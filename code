@@ -1,0 +1,38 @@
+
+
+Tout d'abord, créer un texte aléatoire et stocker-le dans une variable de session :
+php
+
+Copier le code:
+
+session_start();
+
+$random_text = rand(10000, 99999);
+$_SESSION['captcha'] = $random_text;
+
+
+Afficher le texte généré à l'utilisateur en utilisant une image :
+php
+
+Copier le code:
+
+header('Content-Type: image/jpeg');
+
+$image = imagecreate(100, 30);
+$bg_color = imagecolorallocate($image, 255, 255, 255);
+$text_color = imagecolorallocate($image, 0, 0, 0);
+
+imagestring($image, 5, 25, 8, $random_text, $text_color);
+imagejpeg($image);
+imagedestroy($image);
+
+
+Pour vérifier si le texte saisi par l'utilisateur correspond au texte stocké dans la variable de session, vous pouvez comparer les deux valeurs :
+php
+Copier le code:
+
+if ($_POST['captcha'] == $_SESSION['captcha']) {
+  // Le captcha est correct
+} else {
+  // Le captcha est incorrect
+}
